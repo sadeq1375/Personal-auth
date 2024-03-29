@@ -1,16 +1,18 @@
 "use client";
+import { useRouter } from "next/navigation";
 interface LoginButtonProps {
   children: React.ReactNode;
   mode?: "model" | "redirect";
-  asChild: boolean;
+  asChild?: boolean;
 }
 export const LoginButton = ({
   children,
   mode = "redirect",
   asChild,
 }: LoginButtonProps) => {
+  const router = useRouter();
   const onClick = () => {
-    console.log("login button clicked");
+    router.push("/auth/login");
   };
   if (mode === "model") {
     return <span>Todo:Implement modal</span>;
