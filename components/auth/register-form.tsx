@@ -30,15 +30,29 @@ export const RegisterForm = () => {
       name: "",
     },
   });
-  const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
+  // const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
+  //   setError("");
+  //   setSuccess("");
+  //   startTransition(() => {
+  //     register(values).then((data) => {
+  //       setError(data.error);
+  //       setSuccess(data.success);
+  //     });
+  //   });
+  // };
+
+  const onSubmit = async (values: z.infer<typeof RegisterSchema>) => {
     setError("");
     setSuccess("");
-    startTransition(() => {
-      register(values).then((data) => {
-        setError(data.error);
-        setSuccess(data.success);
-      });
-    });
+
+    try {
+      const data = await register(values);
+      setError(data.error);
+      setSuccess(data.success);
+    } catch (error) {
+      setError("An error occurred during login.");
+      console.error("Login error:", error);
+    }
   };
   return (
     <CardWrapper
