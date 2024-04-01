@@ -29,28 +29,25 @@ export const LoginForm = () => {
       password: "",
     },
   });
-  // const onSubmit = (values: z.infer<typeof LoginSchema>) => {
-  //   setError("");
-  //   setSuccess("");
-  //   startTransition(() => {
-  //     login(values).then((data) => {
-  //       setError(data.error);
-  //       setSuccess(data.success);
-  //     });
-  //   });
-  // };
-
-  const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
+  const onSubmit = (values: z.infer<typeof LoginSchema>) => {
     setError("");
     setSuccess("");
 
-    try {
-      const data = await login(values);
-      setError(data.error);
-      setSuccess(data.success);
-    } catch (error) {
-      setError("An error occurred during login.");
-    }
+    startTransition(() => {
+      login(values)
+        .then((data) => {
+          if (data?.error) {
+            form.reset();
+            setError(data.error);
+          }
+
+          if (data?.success) {
+            form.reset();
+            setSuccess(data.success);
+          }
+        })
+        .catch(() => setError("Something went wrong"));
+    });
   };
   return (
     <CardWrapper
