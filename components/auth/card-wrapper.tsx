@@ -1,6 +1,6 @@
 "use client";
 
-import { Header } from "../header";
+import { Header } from "./header";
 import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
 import { BackButton } from "./back-buttoon";
 import { Social } from "./social";
