@@ -20,7 +20,7 @@ import { FormError } from "../form-error";
 import { FormSuccess } from "../form-success";
 import { login } from "@/actions/login";
 import { useState, useTransition } from "react";
-import LoginWrapper from "@/styles/login-wrapper";
+import LoginWrapper from "@/components/auth/login-wrapper";
 export const LoginForm = () => {
   const searchParams = useSearchParams();
   const urlError =
@@ -51,8 +51,7 @@ export const LoginForm = () => {
 
           if (data?.success) {
             form.reset();
-            //Todo add when i add 2FA
-            //setSuccess(data.success);
+            setSuccess(data?.success);
           }
         })
         .catch(() => setError("Something went wrong"));

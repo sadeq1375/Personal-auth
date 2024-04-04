@@ -20,6 +20,7 @@ import { Button } from "@/components/ui/button";
 import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { register } from "@/actions/register";
+import RegisterWrapper from "./register-wrapper";
 
 export const RegisterForm = () => {
   const [error, setError] = useState<string | undefined>("");
@@ -113,9 +114,7 @@ export const RegisterForm = () => {
           </div>
           <FormError message={error} />
           <FormSuccess message={success} />
-          <Button disabled={isPending} type="submit" className="w-full">
-            Create an account
-          </Button>
+          <RegisterWrapper />
         </form>
       </Form>
     </CardWrapper>

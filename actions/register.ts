@@ -1,4 +1,6 @@
 "use server";
+import { generateVrificationToken } from "@/lib/tokens";
+import { sendVerificationEmail } from "@/lib/mail";
 import { getUserByEmail } from "@/data/user";
 import { db } from "@/lib/db";
 import { RegisterSchema } from "@/schemas";
@@ -17,7 +19,8 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
   }
   await db.user.create({ data: { name, email, password: hashedPassword } });
 
-  // Todo:Send vrification Token Email.
+  const verificationToken = await generateVrificationToken(email);
+  await sendVerificationEmail(verificationToken.email, verificationToken.token);
 
-  return { success: "User Created" };
+  return { success: "Verification code send to your eamil" };
 };
