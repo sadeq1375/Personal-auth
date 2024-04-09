@@ -4,6 +4,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import { db } from "@/lib/db";
 import { getUserById } from "./data/user";
 import { UserRole } from "@prisma/client";
+import { getTowFactorConfirmationByUserId } from "./data/two-factor-confirmation";
 
 export const {
   handlers: { GET, POST },
@@ -31,7 +32,14 @@ export const {
       const existingUser = await getUserById(user.id);
       // Prevent sign-in without verification
       if (!existingUser?.emailVerified) return false;
-      //Todo add 2fa check
+
+      if (existingUser.isTwoFactorEnabled) {
+        const twoFactorConfirmation = await getTowFactorConfirmationByUserId(
+          existingUser.id
+        );
+        if (!twoFactorConfirmation) return false;
+        // delete two factor confirmation for next signIn
+      }
       return true;
     },
     async session({ token, session }) {
