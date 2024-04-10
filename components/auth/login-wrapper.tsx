@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import classes from "@/styles/theme.module.css";
 import { useTransition } from "react";
 
-const LoginWrapper = () => {
+const LoginWrapper = ({ showTwoFactor }: any) => {
   const [isPending, startTransition] = useTransition();
   return (
     <div className={classes.gradientbordercard}>
@@ -14,7 +14,9 @@ const LoginWrapper = () => {
       >
         <span>
           <span className={classes.highlightbg}></span>
-          <span className={`text-white ${classes.buttontext}`}>Login</span>
+          <span className={`text-white ${classes.buttontext}`}>
+            {showTwoFactor ? "Confirm" : "Login"}
+          </span>
         </span>
       </Button>
       <div className="shimmer dely-[-12.5s]"></div>

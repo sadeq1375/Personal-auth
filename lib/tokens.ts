@@ -16,7 +16,7 @@ export const generateTwoFactorToken = async (email: string) => {
   });
   return twoFactorToken;
 };
-export const generateVrificationToken = async (email: string) => {
+export const generateVerificationToken = async (email: string) => {
   const token = uuidv4();
   //Todo later change time to lower for production
   const expires = new Date(new Date().getTime() + 3600 * 1000);
