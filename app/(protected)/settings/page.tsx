@@ -1,18 +1,31 @@
 "use client";
-import { useCurrentUser } from "@/hooks/use-current-user";
-import { signOut } from "next-auth/react";
+import { settings } from "@/actions/settings";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { useTransition } from "react";
+import { FcSettings } from "react-icons/fc";
 
 const SettingsPage = () => {
-  const user = useCurrentUser();
+  const [isPending, startTransition] = useTransition();
   const onClick = () => {
-    signOut();
+    startTransition(() => {
+      settings({ name: "New Name!" });
+    });
   };
   return (
-    <div className="bg-white rounded-xl p-10">
-      <button onClick={onClick} type="submit">
-        Sign Out
-      </button>
-    </div>
+    <Card className="w-[600px]">
+      <CardHeader>
+        <p className="text-2xl font-semi-bold flex justify-center items-center">
+          <FcSettings />
+          Settings
+        </p>
+      </CardHeader>
+      <CardContent>
+        <Button onClick={onClick} disabled={isPending}>
+          Update name
+        </Button>
+      </CardContent>
+    </Card>
   );
 };
 
