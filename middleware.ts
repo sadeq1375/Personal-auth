@@ -27,7 +27,14 @@ export default auth((req) => {
     return;
   }
   if (!isLoggedIn && !isPublicRoute) {
-    return Response.redirect(new URL("/auth/login", nextUrl));
+    let callbackurl = nextUrl.pathname;
+    if (nextUrl.search) {
+      callbackurl += nextUrl.search;
+    }
+    const encodedCallbackUrl = encodeURIComponent(callbackurl);
+    return Response.redirect(
+      new URL(`/auth/login?callbackUrl=${encodedCallbackUrl}`, nextUrl)
+    );
   }
   return;
 });
