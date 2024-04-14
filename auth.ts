@@ -8,19 +8,13 @@ import { getUserById } from "@/data/user";
 import { getTwoFactorConfirmationByUserId } from "@/data/two-factor-confirmation";
 import { getAccountByUserId } from "./data/account";
 
-// Define custom user update function
-async function updateUser(userId: string) {
-  await db.user.update({
-    where: { id: userId },
-    data: { emailVerified: new Date() },
-  });
-}
-
 export const {
   handlers: { GET, POST },
   auth,
   signIn,
   signOut,
+  //@ts-ignore
+  update,
 } = NextAuth({
   pages: {
     signIn: "/auth/login",
@@ -28,8 +22,10 @@ export const {
   },
   events: {
     async linkAccount({ user }) {
-      //@ts-ignore
-      await updateUser(user.id);
+      await db.user.update({
+        where: { id: user.id },
+        data: { emailVerified: new Date() },
+      });
     },
   },
   callbacks: {
