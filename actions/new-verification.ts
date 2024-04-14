@@ -2,12 +2,11 @@
 
 import { db } from "@/lib/db";
 import { getUserByEmail } from "@/data/user";
-import { getVerificationTokenByToken } from "@/data/verification-token";
+import { getVerificationTokenByToken } from "@/data/verificiation-token";
 
 export const newVerification = async (token: string) => {
-  console.log("Token :::", token);
   const existingToken = await getVerificationTokenByToken(token);
-  console.log("ExistingToken:::", existingToken);
+
   if (!existingToken) {
     return { error: "Token does not exist!" };
   }
@@ -26,14 +25,14 @@ export const newVerification = async (token: string) => {
 
   await db.user.update({
     where: { id: existingUser.id },
-    data: {
+    data: { 
       emailVerified: new Date(),
       email: existingToken.email,
-    },
+    }
   });
 
   await db.verificationToken.delete({
-    where: { id: existingToken.id },
+    where: { id: existingToken.id }
   });
 
   return { success: "Email verified!" };
