@@ -40,7 +40,7 @@ export default function Home() {
 
         <p className="text-white text-lg mt-4">Authentication service</p>
         <div>
-          <LoginButton>
+          <LoginButton mode="modal" asChild>
             <Button variant="secondary" size="lg" className="mt-5">
               Sign In
             </Button>
